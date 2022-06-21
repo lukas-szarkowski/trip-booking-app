@@ -127,7 +127,7 @@ function checkNumbers(num1, num2) {
 function handleData(name, email, order) {
 	const errors = [];
 	if (name.length < 1) {
-		errors.push('To pole nie może być puste.');
+		errors.push('To pole "Imię i Nazwisko" nie może być puste.');
 	}
 	if (!email.includes('@')) {
 		errors.push('Błędny email.');
