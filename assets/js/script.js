@@ -81,6 +81,15 @@ function getOrderEl(tripTitle, numberOfAdults, priceAdult, numberOfChildren, pri
 	return newSummaryEl;
 }
 
+function removeExcursion(e) {
+	e.preventDefault();
+	if (e.target.tagName === 'A') {
+		const currentLiEl = e.target.parentElement.parentElement;
+		ulSummaryEl.removeChild(currentLiEl);
+		updateTotalPrice();
+	}
+}
+
 function updateTotalPrice() {
 	const summaryPrices = document.querySelectorAll('.summary__total-price');
 	let totalPrice = 0;
@@ -89,6 +98,17 @@ function updateTotalPrice() {
 		totalPrice += totalTripsPrice;
 	});
 	orderTotalPriceEl.innerText = totalPrice + 'PLN';
+}
+
+function sendOrder(e) {
+	const orderTotalPrice = e.target.querySelector('.order__total-price-value').innerText;
+	const customer = e.target.querySelector('[name="name"]').value;
+	const customerEmail = e.target.querySelector('[name="email"]').value;
+	if (!handleData(customer, customerEmail, orderTotalPrice)) {
+		e.preventDefault();
+	} else {
+		alert(`Zamówienie wysłane! Wkrótce otrzymasz potwierdzenie na adres: ${customerEmail}`);
+	}
 }
 
 function checkNumbers(num1, num2) {
@@ -132,3 +152,6 @@ function showErrors(err) {
 // Event Listeners
 
 uploaderEl.addEventListener('change', readFile);
+formExcursionEl.addEventListener('submit', addExcursion);
+ulSummaryEl.addEventListener('click', removeExcursion);
+formPanelOrderEl.addEventListener('submit', sendOrder);
