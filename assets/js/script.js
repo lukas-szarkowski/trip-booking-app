@@ -62,6 +62,18 @@ function getExcursion(item) {
 	return [tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild];
 }
 
+function getOrderEl(tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild) {
+    const newSummaryEl = liSummaryEl.cloneNode(true);
+    newSummaryEl.classList.remove('summary__item--prototype');
+    const newSummaryName = newSummaryEl.querySelector('.summary__name');
+    const newSummaryTotalPrice = newSummaryEl.querySelector('.summary__total-price');
+    const newParagraph = newSummaryEl.querySelector('p');
+    newSummaryName.innerText = tripTitle;
+    newSummaryTotalPrice.innerText = `${numberOfAdults * priceAdult + numberOfChildren * priceChild}PLN`;
+    newParagraph.innerText = `${ numberOfAdults=== 0 ? '' : 'dorośli: ' + numberOfAdults + ' x ' + priceAdult + 'PLN'} ${numberOfAdults!== 0 && numberOfChildren !== 0 ? ',':''} ${ numberOfChildren === 0 ? '' : 'dzieci: ' + numberOfChildren + ' x ' + priceChild + 'PLN'}`;
+    return newSummaryEl;
+}
+
 function checkNumbers(num1, num2) {
 	const errors = [];
 	if (Number.isNaN(num1) || Number.isNaN(num2) || num1 < 0 || num2 < 0) {
