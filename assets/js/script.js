@@ -41,7 +41,7 @@ function createNewExcursionEl(item) {
 function addExcursion(e) {
 	e.preventDefault();
 	const [tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild] = getExcursion(e.target);
-	if (checkData(numberOfAdults, numberOfChildren)) {
+	if (checkNumbers(numberOfAdults, numberOfChildren)) {
 		const chosenExcursion = ulSummaryEl.querySelectorAll('.summary__name');
 		chosenExcursion.forEach(function (item) {
 			if (item.innerText === tripTitle) {
@@ -62,12 +62,29 @@ function getExcursion(item) {
 	return [tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild];
 }
 
-function checkData(num1, num2) {
+function checkNumbers(num1, num2) {
 	const errors = [];
 	if (Number.isNaN(num1) || Number.isNaN(num2) || num1 < 0 || num2 < 0) {
 		errors.push('Podano  blędną liczbę uczestników');
 	} else if (num1 === 0 && num2 === 0) {
 		errors.push('Podaj prawidłowoą liczbę uczestników');
+	}
+	if (errors.length > 0) {
+		showErrors(errors);
+	}
+	return errors.length > 0 ? false : true;
+}
+
+function handleData(name, email, order) {
+	const errors = [];
+	if (name.length < 1) {
+		errors.push('To pole nie może być puste.');
+	}
+	if (!email.includes('@')) {
+		errors.push('Błędny email.');
+	}
+	if (order === '0PLN') {
+		errors.push('Wybierz wycieczkę przed złożeniem zamówienia.');
 	}
 	if (errors.length > 0) {
 		showErrors(errors);
