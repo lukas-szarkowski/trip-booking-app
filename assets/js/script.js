@@ -49,6 +49,9 @@ function addExcursion(e) {
 				ulSummaryEl.removeChild(currentLiEl);
 			}
 		});
+		const newSummaryEl = getOrderEl(tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild);
+		ulSummaryEl.appendChild(newSummaryEl);
+		updateTotalPrice();
 	}
 }
 
@@ -63,15 +66,29 @@ function getExcursion(item) {
 }
 
 function getOrderEl(tripTitle, numberOfAdults, priceAdult, numberOfChildren, priceChild) {
-    const newSummaryEl = liSummaryEl.cloneNode(true);
-    newSummaryEl.classList.remove('summary__item--prototype');
-    const newSummaryName = newSummaryEl.querySelector('.summary__name');
-    const newSummaryTotalPrice = newSummaryEl.querySelector('.summary__total-price');
-    const newParagraph = newSummaryEl.querySelector('p');
-    newSummaryName.innerText = tripTitle;
-    newSummaryTotalPrice.innerText = `${numberOfAdults * priceAdult + numberOfChildren * priceChild}PLN`;
-    newParagraph.innerText = `${ numberOfAdults=== 0 ? '' : 'dorośli: ' + numberOfAdults + ' x ' + priceAdult + 'PLN'} ${numberOfAdults!== 0 && numberOfChildren !== 0 ? ',':''} ${ numberOfChildren === 0 ? '' : 'dzieci: ' + numberOfChildren + ' x ' + priceChild + 'PLN'}`;
-    return newSummaryEl;
+	const newSummaryEl = liSummaryEl.cloneNode(true);
+	newSummaryEl.classList.remove('summary__item--prototype');
+	const newSummaryName = newSummaryEl.querySelector('.summary__name');
+	const newSummaryTotalPrice = newSummaryEl.querySelector('.summary__total-price');
+	const newParagraph = newSummaryEl.querySelector('p');
+	newSummaryName.innerText = tripTitle;
+	newSummaryTotalPrice.innerText = `${numberOfAdults * priceAdult + numberOfChildren * priceChild}PLN`;
+	newParagraph.innerText = `${
+		numberOfAdults === 0 ? '' : 'dorośli: ' + numberOfAdults + ' x ' + priceAdult + 'PLN'
+	} ${numberOfAdults !== 0 && numberOfChildren !== 0 ? ',' : ''} ${
+		numberOfChildren === 0 ? '' : 'dzieci: ' + numberOfChildren + ' x ' + priceChild + 'PLN'
+	}`;
+	return newSummaryEl;
+}
+
+function updateTotalPrice() {
+	const summaryPrices = document.querySelectorAll('.summary__total-price');
+	let totalPrice = 0;
+	summaryPrices.forEach(function (item) {
+		const totalTripsPrice = Number(item.innerText.replace('PLN', ''));
+		totalPrice += totalTripsPrice;
+	});
+	orderTotalPriceEl.innerText = totalPrice + 'PLN';
 }
 
 function checkNumbers(num1, num2) {
