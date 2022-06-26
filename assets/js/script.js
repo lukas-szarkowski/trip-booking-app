@@ -1,3 +1,13 @@
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+	uploaderEl.addEventListener('change', readFile);
+	formExcursionEl.addEventListener('submit', addExcursion);
+	ulSummaryEl.addEventListener('click', removeExcursion);
+	formPanelOrderEl.addEventListener('submit', sendOrder);
+	console.log('DOM');
+}
+
 const uploaderEl = document.querySelector('.uploader');
 const ulExcursionEl = document.querySelector('.excursions');
 const liExcursionEl = document.querySelector('.excursions__item--prototype');
@@ -104,7 +114,7 @@ function sendOrder(e) {
 	const orderTotalPrice = e.target.querySelector('.order__total-price-value').innerText;
 	const customer = e.target.querySelector('[name="name"]').value;
 	const customerEmail = e.target.querySelector('[name="email"]').value;
-	if (!handleData(customer, customerEmail, orderTotalPrice)) {
+	if (!validateData(customer, customerEmail, orderTotalPrice)) {
 		e.preventDefault();
 	} else {
 		alert(`Zamówienie wysłane! Wkrótce otrzymasz potwierdzenie na adres: ${customerEmail}`);
@@ -124,7 +134,7 @@ function checkNumbers(num1, num2) {
 	return errors.length > 0 ? false : true;
 }
 
-function handleData(name, email, order) {
+function validateData(name, email, order) {
 	const errors = [];
 	if (name.length < 1) {
 		errors.push('To pole "Imię i Nazwisko" nie może być puste.');
@@ -148,10 +158,3 @@ function showErrors(err) {
 	});
 	alert(`${text}`);
 }
-
-// Event Listeners
-
-uploaderEl.addEventListener('change', readFile);
-formExcursionEl.addEventListener('submit', addExcursion);
-ulSummaryEl.addEventListener('click', removeExcursion);
-formPanelOrderEl.addEventListener('submit', sendOrder);
